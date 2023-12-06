@@ -10,7 +10,9 @@ while True:
   bus.i2c_rdwr(read)  # perform I2C operation
   received_data = list(read)
   received_string += ''.join(chr(b) for b in received_data)
-  if len(received_string) >= len(data_to_send):  // assuming you know the length of data
+  if '#' in received_string:  // stop reading when the delimiter is found
     break
+
+received_string = received_string.rstrip('#')  // remove the delimiter from the string
 
 print(received_string)
