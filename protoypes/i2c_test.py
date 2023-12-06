@@ -1,22 +1,16 @@
 from smbus2 import SMBus, i2c_msg
 
-# I2C bus
-bus = SMBus(1)
+bus = SMBus(1)  # indicates /dev/ic2-1
+arduino_address = 0x08
 
-# I2C slave address
-address = 0x10
+received_string = ''
 
-# Create a write message to send a request
-write = i2c_msg.write(address, [])
+while True:
+  read = i2c_msg.read(arduino_address, 32)  # create a read message
+  bus.i2c_rdwr(read)  # perform I2C operation
+  received_data = list(read)
+  received_string += ''.join(chr(b) for b in received_data)
+  if len(received_string) >= len(data_to_send):  // assuming you know the length of data
+    break
 
-# Create a read message to receive the data
-read = i2c_msg.read(address, 1024)
-
-# Send the request and receive the data
-bus.i2c_rdwr(write, read)
-
-# Convert the received data to a string
-data = ''.join(chr(b) for b in read)
-
-# Print the received data
-print(data)
+print(received_string)
